@@ -1,0 +1,284 @@
+openapi: 3.1.0
+x-stoplight:
+  id: xj0nmh6vzpiv8
+info:
+  title: open-api-projekt
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /recipes:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+      operationId: get-recipes
+      description: Get all recipes
+    post:
+      summary: ''
+      operationId: post-recipes
+      responses:
+        '201':
+          description: Created
+      description: Create a new recipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                picture:
+                  type: string
+                steps:
+                  type: string
+              required:
+                - name
+                - description
+                - steps
+        description: ''
+  '/recipes/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '404':
+          description: Not Found
+      operationId: get-recipes-id
+      description: Get the recipe with the given string and all elements with the string in its name
+    put:
+      summary: ''
+      operationId: put-recipes-name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+      description: Put changes for a recipe with the given name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                picture:
+                  type: string
+                steps:
+                  type: string
+              required:
+                - name
+    delete:
+      summary: ''
+      operationId: delete-recipes-name
+      responses:
+        '204':
+          description: No Content
+      description: Delete the recipe with the given name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+  '/recipes/ingredient/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+      operationId: get-recipes-ingredient-name
+      description: Get all recipes containing the given ingredient
+  /ingredients:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingredient'
+      operationId: get-ingredients
+      description: Get all ingredients
+    post:
+      summary: ''
+      operationId: post-ingredients
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+      description: Create a new ingredient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                picture:
+                  type: string
+              required:
+                - name
+                - description
+  '/ingredients/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+      operationId: get-ingredients-name
+      description: Get the ingredient with the given name
+    put:
+      summary: ''
+      operationId: put-ingredients-name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+      description: Update an existing ingredient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                picture:
+                  type: string
+    delete:
+      summary: ''
+      operationId: delete-ingredients-name
+      responses:
+        '204':
+          description: No Content
+      description: Delete an existing ingredient
+      x-internal: false
+components:
+  schemas:
+    Recipe:
+      title: Recipe
+      x-stoplight:
+        id: vkhepi37bvtz1
+      type: object
+      examples:
+        - id: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+          name: Lasagne
+          description: example of a lasagne
+          picture: link/to/picture
+          steps:
+            - string
+          rating: 0
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        picture:
+          type: string
+        steps:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+      required:
+        - name
+        - description
+        - steps
+    Ingredient:
+      title: Ingredient
+      x-stoplight:
+        id: lajm9srwo8cjg
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        picture:
+          type: string
+      required:
+        - name
+        - description
+      examples:
+        - name: Onion
+          description: Beautiful onion
+          picture: link/to/picture
